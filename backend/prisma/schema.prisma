@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id      Int      @id @default(autoincrement())
+  name    String
+  phone   String?
+  mobile  String?
+  address String?
+  users   User[]
+  clients Client[]
+
+  @@map("accounts")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  role      String
+  accountId Int?      @map("account")
+  name      String
+  username  String
+  password  String?
+  language  String
+  token     String?
+  active    Boolean   @default(true)
+  lastLogin DateTime? @map("last_login")
+  createdOn DateTime? @map("created_on")
+  account   Account?  @relation(fields: [accountId], references: [id])
+
+  @@map("users")
+}
+
+model Client {
+  id          Int         @id @default(autoincrement())
+  accountId   Int         @map("account")
+  account     Account     @relation(fields: [accountId], references: [id])
+  name        String
+  contracts   String?
+  nationalId  String?     @map("national_id")
+  sellDate    String?     @map("sell_date")
+  work        String?
+  homeAddress String?     @map("home_address")
+  workAddress String?     @map("work_address")
+  phone       String?
+  status      String?
+  courtStatus String?     @map("court_status")
+  createdOn   DateTime?   @map("created_on")
+  attachments Attachment[]
+
+  @@index([accountId])
+  @@index([nationalId])
+  @@map("clients")
+}
+
+model Attachment {
+  id       Int    @id @default(autoincrement())
+  clientId Int    @map("client")
+  filename String @map("image")
+  client   Client @relation(fields: [clientId], references: [id])
+
+  @@map("attachments")
+}
+
+model Translation {
+  id   Int    @id @default(autoincrement())
+  text String
+  en   String?
+  ar   String?
+
+  @@map("translate")
+}
+
+model ExternalSource {
+  id          Int      @id @default(autoincrement())
+  name        String
+  urlTemplate String  @map("url_template")
+  enabled     Boolean @default(true)
+  mapping     Json    @default("{}")
+  headers     Json    @default("{}")
+  createdAt   DateTime @map("created_at")
+  updatedAt   DateTime @map("updated_at")
+
+  @@map("external_sources")
+}
