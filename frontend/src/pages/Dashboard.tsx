@@ -182,7 +182,7 @@ export default function Dashboard() {
           <DataTable
             columns={columns}
             data={combinedResults}
-            keyExtractor={(row, index) => row.id?.toString() ?? `row-${index}`}
+            keyExtractor={(row) => row.id?.toString() ?? Math.random().toString()}
             emptyMessage="لا توجد نتائج للبحث"
           />
         </div>
