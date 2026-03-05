@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteRule ^favicon\.ico$ /favicon.png [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L,QSA]

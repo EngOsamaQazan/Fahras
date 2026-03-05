@@ -1,0 +1,21 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp/debug scripts
+_*.py
+_*.txt
+temp_*.html
+__MACOSX/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Database dumps (contain sensitive data)
+fahras_db.sql
+
+# RBAC migration SQL (already applied)
+rbac_migration.sql

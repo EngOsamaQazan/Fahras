@@ -1,0 +1,285 @@
+html, body {
+    overflow: hidden!important;
+    height: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: 'Tajawal', sans-serif;
+    width: 100%;
+}
+
+
+
+.header {
+    height: 60px;
+    text-align: center;
+    position: fixed;
+    border-bottom: 1px solid #DDD;
+    font-size: 23px;
+    padding-top: 15px;
+    width: 100%;
+    background: white;
+}
+
+.header .left {
+    position: absolute;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    top: 0;
+    padding-top: 19px;
+    color: #40afff;
+}
+
+.header .center {
+    font-size: 29px;
+}
+
+.header .right {
+    position: absolute;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    top: 0;
+    padding-top: 19px;
+    color: black;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    left: 0;
+    height: 70px;
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid #DDD;
+}
+
+.footer span {
+    width: calc(25% - 5px);
+    display: inline-block;
+    padding-top: 13px;
+}
+
+.footer .active {
+
+}
+
+.footer span i {
+    display: block;
+    font-size: 21px;
+}
+
+.footer span t {
+    margin-top: 6px;
+    display: block;
+    font-size: 13px;
+}
+
+#page-container {
+    height: calc(100% - 132px);
+    margin-top: 61px;
+    width: 100%;
+    overflow-x: auto;
+    background: #f7f7f7;
+}
+
+.loader i {
+    color: #6f6f6f;
+    margin-top: 50px;
+}
+
+.platforms {
+    padding: 0 15px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.platform {
+    width: calc(50% - 10px);
+    display: inline-block;
+    margin-right: 15px;
+    border: 1px solid #DDD;
+    margin-bottom: 15px;
+    text-align: center;
+    background: white;
+}
+
+.platform:nth-child(2n) {
+    margin-right: 0px;
+}
+
+@media (min-width: 768px) {
+
+.platform {
+    width: calc(25% - 14px);
+}
+
+.platform:nth-child(2n) {
+    margin-right: 15px;
+}
+
+.platform:nth-child(4n) {
+    margin-right: 0px;
+}
+
+}
+
+
+
+
+.platform .p-image {
+    height: 168px;
+    background-size: cover!important;
+    background-position: center center!important;
+    background-repeat: no-repeat!important;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #DDD;
+}
+
+.platform span {
+    display: block;
+    border: 1px solid #DDD;
+    margin: 6px;
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.items {
+
+}
+
+.item {
+
+}
+
+.i-image {
+
+}
+
+.swal2-popup {
+	zoom: 1.5;
+}
+
+.swal2-icon .swal2-icon-content {
+    padding-top: 13px;
+}
+
+td:last-child,
+th:last-child {
+	text-align: right;
+}
+
+
+.items {
+    background: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #DDD;
+}
+
+
+*:not(input):not(textarea) {
+    outline: none!important;
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+
+.balance-container {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.balance-container i {
+    font-size: 60px;
+}
+
+.balance-container h1 {
+    font-size: 26px;
+    font-weight: 500;
+    margin-top: 0px;
+}
+
+.balance-container h4 {
+    margin-top: 30px;
+}
+
+
+.table {
+    background: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #DDD;
+}
+
+
+
+
+.code-print {
+    text-align: center;
+    border: 1px solid #e30d13;
+    border-bottom: 4px solid #e30d13;
+    background: white;
+    padding: 20px;
+}
+
+
+@media print {
+
+    .container {
+        margin: 0;
+        padding: 0;
+    }
+
+    .code-print {
+        border: 0;
+        padding: 50px 0;
+        color: black;
+    }
+}
+
+* {
+    outline: none!important;
+}
+
+.action-btns {
+
+}
+
+.action-btns .btn {
+    padding-top: 13px;
+    width: calc(50% - 2px);
+}
+
+.logo {
+    height: 28px;
+}
+
+
+
+.action-btns i {
+    color: black;
+    margin: 0 3px;
+}
+
+red {
+    color: red;
+    font-style: italic;
+}
+
+.form-register input {
+    margin-bottom: 10px;
+}
+
+
+
+

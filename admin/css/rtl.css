@@ -1,0 +1,97 @@
+body {
+	direction: rtl;
+}
+
+.header .right {
+    right: inherit;
+    left: 0;
+}
+
+.platform {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+.platform:nth-child(2n) {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+@media (min-width: 768px) {
+
+	.platform:nth-child(2n) {
+	    margin-right: 0;
+	    margin-left: 15px;
+	}
+
+	.platform:nth-child(4n) {
+	    margin-right: 0px;
+	    margin-left: 0px;
+	}
+
+}
+
+td:last-child,
+th:last-child {
+	text-align: left;
+}
+
+.header .left {
+    left: inherit;
+    right: 0;
+}
+
+
+.btn-title i {
+    width: 16px;
+    text-align: right;
+}
+
+.btn-title {
+    padding-left: 10px;
+}
+
+.date-filter input, .date-filter select {
+    float: right;
+}
+
+.date-filter span {
+    float: right;
+}
+
+.date-filter .btn {
+    margin-right: 10px;
+    margin-left: 0px;
+}
+
+.dropdown-menu i, .nav i {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.home-widget {
+	float: right;
+    margin-right: 0px;
+    margin-left: 10px;	
+}
+
+.home-widget:nth-child(3n) {
+    margin-right: 0px;
+    margin-left: 0;
+}
+
+.home-widget .badge-icon {
+    float: left;
+}
+
+.home-widget .right {
+    float: right;
+}
+
+
+@media (max-width: 768px) {
+.date-filter .btn {
+    margin-right: 0;
+}
+
+}
