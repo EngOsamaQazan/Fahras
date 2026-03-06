@@ -61,6 +61,7 @@ if (!empty($searchQuery) || !empty($selectedWork)) {
         $apis = [
             ['url' => "https://jadal.aqssat.co/fahras/jobs.php?token=b83ba7a49b72&db=jadal&search={$enc}", 'label' => 'جدل', 'src' => 'jadal'],
             ['url' => "https://jadal.aqssat.co/fahras/jobs.php?token=b83ba7a49b72&db=erp&search={$enc}", 'label' => 'نماء', 'src' => 'namaa'],
+            ['url' => "https://bseel.com/FahrasBaselFullAPIs.php?token=bseel_fahras_2024&action=jobs&search={$enc}", 'label' => 'بسيل', 'src' => 'bseel'],
         ];
         foreach ($apis as $api) {
             $res = fetchJobsApi($api['url'], $api['label']);

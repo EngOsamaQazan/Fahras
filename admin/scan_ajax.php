@@ -39,15 +39,16 @@ $sourceUrls = [
     'zajal' => 'https://zajal.cc/fahras-api.php?token=354afdf5357c&search=',
     'jadal' => 'https://jadal.aqssat.co/fahras/api.php?token=b83ba7a49b72&db=jadal&search=',
     'namaa' => 'https://jadal.aqssat.co/fahras/api.php?token=b83ba7a49b72&db=erp&search=',
-    'bseel' => 'https://bseel.com/api-v1.php?search=',
+    'bseel' => 'https://bseel.com/FahrasBaselFullAPIs.php?token=bseel_fahras_2024&search=',
 ];
 
 $bulkExportUrls = [
     'jadal' => 'https://jadal.aqssat.co/fahras/api.php?token=b83ba7a49b72&db=jadal&action=bulk_export',
     'namaa' => 'https://jadal.aqssat.co/fahras/api.php?token=b83ba7a49b72&db=erp&action=bulk_export',
+    'bseel' => 'https://bseel.com/FahrasBaselFullAPIs.php?token=bseel_fahras_2024&action=bulk_export',
 ];
 
-$bulkSources = ['jadal', 'namaa'];
+$bulkSources = ['jadal', 'namaa', 'bseel'];
 
 switch ($action) {
 

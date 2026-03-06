@@ -85,6 +85,25 @@ switch ($action) {
     case 'bulk_export':
         handleSearch($conn, '', true);
         break;
+    case 'debug_dirs':
+        header('Content-Type: application/json; charset=UTF-8');
+        $dirs = ['__DIR__' => __DIR__, 'parent' => dirname(__DIR__)];
+        $checkPaths = [
+            __DIR__ . '/uploads', __DIR__ . '/images', __DIR__ . '/files',
+            __DIR__ . '/doc_photos', __DIR__ . '/attachments',
+            dirname(__DIR__) . '/doc_photos', dirname(__DIR__) . '/uploads',
+            dirname(__DIR__) . '/accessdb',
+        ];
+        $result = ['dirs' => $dirs, 'paths' => []];
+        foreach ($checkPaths as $p) {
+            $info = ['path' => $p, 'exists' => is_dir($p)];
+            if ($info['exists']) {
+                $info['files'] = array_slice(array_diff(scandir($p), ['.', '..']), 0, 10);
+            }
+            $result['paths'][] = $info;
+        }
+        echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        break;
     default:
         if ($search !== '') {
             handleSearch($conn, $search, false);
@@ -193,13 +212,32 @@ function handleSearch($conn, $search, $isBulk) {
     if ($isBulk) {
         $sql = clientsBaseQuery('', '');
     } else {
-        $pattern = '%' . $search . '%';
-        $params  = [$pattern, $pattern, $pattern];
-        $sql = clientsBaseQuery('TOP 20',
-            "WHERE m.name1 LIKE ?
-                OR CAST(m.num1 AS NVARCHAR(50)) LIKE ?
-                OR CAST(m.contract_num AS NVARCHAR(50)) LIKE ?"
-        );
+        $words = preg_split('/\s+/u', trim($search));
+        $words = array_filter($words, fn($w) => mb_strlen($w) > 0);
+
+        if (count($words) > 1) {
+            $nameConditions = [];
+            foreach ($words as $w) {
+                $nameConditions[] = "m.name1 LIKE ?";
+                $params[] = '%' . $w . '%';
+            }
+            $nameSql = '(' . implode(' AND ', $nameConditions) . ')';
+            $params[] = '%' . $search . '%';
+            $params[] = '%' . $search . '%';
+            $sql = clientsBaseQuery('TOP 20',
+                "WHERE {$nameSql}
+                    OR CAST(m.num1 AS NVARCHAR(50)) LIKE ?
+                    OR CAST(m.contract_num AS NVARCHAR(50)) LIKE ?"
+            );
+        } else {
+            $pattern = '%' . $search . '%';
+            $params  = [$pattern, $pattern, $pattern];
+            $sql = clientsBaseQuery('TOP 20',
+                "WHERE m.name1 LIKE ?
+                    OR CAST(m.num1 AS NVARCHAR(50)) LIKE ?
+                    OR CAST(m.contract_num AS NVARCHAR(50)) LIKE ?"
+            );
+        }
     }
 
     $stmt = sqlsrv_query($conn, $sql, $params);
@@ -358,14 +396,19 @@ function handleAttachments($conn) {
         return;
     }
 
-    $exts     = ['jpg','jpeg','png','gif','bmp','webp','pdf'];
+    $exts     = ['jpg','jpeg','png','gif','bmp','webp','pdf','tif','tiff'];
     $found    = [];
     $baseHost = 'https://bseel.com';
+    $wwwDir   = dirname(__DIR__);
 
     $searchDirs = [
-        __DIR__ . '/uploads/' . $clientId          => $baseHost . '/uploads/' . $clientId,
-        __DIR__ . '/uploads/contracts/' . $clientId => $baseHost . '/uploads/contracts/' . $clientId,
-        __DIR__ . '/uploads/clients/' . $clientId   => $baseHost . '/uploads/clients/' . $clientId,
+        __DIR__ . '/uploads/' . $clientId            => $baseHost . '/uploads/' . $clientId,
+        __DIR__ . '/uploads/contracts/' . $clientId   => $baseHost . '/uploads/contracts/' . $clientId,
+        __DIR__ . '/uploads/clients/' . $clientId     => $baseHost . '/uploads/clients/' . $clientId,
+        $wwwDir . '/doc_photos/' . $clientId          => $baseHost . '/../doc_photos/' . $clientId,
+        __DIR__ . '/doc_photos/' . $clientId          => $baseHost . '/doc_photos/' . $clientId,
+        __DIR__ . '/images/' . $clientId              => $baseHost . '/images/' . $clientId,
+        __DIR__ . '/files/' . $clientId               => $baseHost . '/files/' . $clientId,
     ];
 
     foreach ($searchDirs as $dir => $urlBase) {
@@ -433,20 +476,16 @@ function handleJobs($conn, $search) {
         return;
     }
 
+    $seen = [];
     $data = [];
     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
         $r = buildClientRow($row);
+        $workName = trim($r['work'] ?? '');
+        if ($workName === '' || isset($seen[$workName])) continue;
+        $seen[$workName] = true;
         $data[] = [
-            'id'               => $r['id'],
-            'name'             => $r['name'],
-            'national_id'      => $r['national_id'],
-            'work'             => $r['work'],
-            'work_address'     => $r['work_address'],
-            'phone'            => $r['phone'],
-            'created_on'       => $r['created_on'],
-            'sell_date'        => $r['sell_date'],
-            'remaining_amount' => $r['remaining_amount'],
-            'status'           => $r['status'],
+            'id'   => $r['id'],
+            'name' => $workName,
         ];
     }
     sqlsrv_free_stmt($stmt);
